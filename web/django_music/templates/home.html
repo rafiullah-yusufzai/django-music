@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block title %}Django Music – Home{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center g-5">
+
+        <div class="col-12 col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4">Login</h2>
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="invalid-feedback d-block">
+                                        {% for error in field.errors %}{{ error }}{% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                            </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-7">
+            <h2 class="mb-4">🔍 Search Users</h2>
+            <form method="get" class="mb-4">
+                <div class="input-group">
+                    <input type="text"
+                        name="q"
+                        value="{{ query }}"
+                        class="form-control"
+                        placeholder="Search by name...">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </form>
+
+            {% if query %}
+                {% if search_results %}
+                    <ul class="list-group mb-5">
+                        {% for u in search_results %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-bold">{{ u.get_display_name }}</div>
+                                    {% if u.favorite_song %}
+                                        <small class="text-muted">
+                                            ♫ {{ u.favorite_song.title }} — {{ u.favorite_song.artist }}
+                                        </small>
+                                    {% else %}
+                                        <small class="text-muted">No favorite song yet</small>
+                                    {% endif %}
+                                </div>
+                                <a href="{% url 'public_profile' u.slug %}" class="btn btn-outline-secondary btn-sm">
+                                    View profile
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-5">No users found for "{{ query }}".</p>
+                {% endif %}
+            {% endif %}
+
+            <h2 class="mb-4">🔥 Most Popular Songs</h2>
+            {% if top_songs %}
+                <ol class="list-group list-group-numbered">
+                    {% for song in top_songs %}
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">{{ song.title }}</div>
+                                <small class="text-muted">{{ song.artist }} — {{ song.album.title }}</small>
+                            </div>
+                            <span class="badge bg-primary rounded-pill">
+                                {{ song.fan_count }} fan{{ song.fan_count|pluralize }}
+                            </span>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <p class="text-muted">No songs yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

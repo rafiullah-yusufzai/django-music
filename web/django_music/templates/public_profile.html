@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ profile_user.get_display_name }} – Django Music{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-hero {
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        background: #1a1a2e;
+    }
+
+    .profile-hero__bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        filter: blur(32px) brightness(0.4) saturate(1.5);
+        transform: scale(1.1);
+        z-index: 0;
+    }
+
+    .profile-hero__content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .album-cover {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .album-cover-placeholder {
+        width: 180px;
+        height: 180px;
+        border-radius: 8px;
+        background: rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+
+    .song-title {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        font-weight: 700;
+        color: #ffffff;
+        line-height: 1.2;
+    }
+
+    .artist-name {
+        font-size: clamp(1rem, 2.5vw, 1.4rem);
+        color: rgba(255,255,255,0.75);
+    }
+
+    .album-name {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.5);
+    }
+
+    .user-label {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 0.25rem;
+    }
+
+    .fan-info {
+        font-size: 0.85rem;
+        color: rgba(255,255,255,0.45);
+        margin-top: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="profile-hero">
+
+    {% if profile_user.favorite_song and profile_user.favorite_song.album.cover %}
+        <div class="profile-hero__bg"
+             style="background-image: url('{{ profile_user.favorite_song.album.cover.url }}');">
+        </div>
+    {% else %}
+        <div class="profile-hero__bg"
+             style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);">
+        </div>
+    {% endif %}
+
+    <div class="container profile-hero__content py-5">
+        <div class="row align-items-center g-4">
+
+            <div class="col-auto">
+                {% if profile_user.favorite_song and profile_user.favorite_song.album.cover %}
+                    <img src="{{ profile_user.favorite_song.album.cover.url }}"
+                         alt="{{ profile_user.favorite_song.album.title }}"
+                         class="album-cover">
+                {% else %}
+                    <div class="album-cover-placeholder">🎵</div>
+                {% endif %}
+            </div>
+
+            <div class="col">
+                {% if profile_user.favorite_song %}
+                    <p class="user-label">{{ profile_user.get_display_name }}'s favorite song</p>
+                    <h1 class="song-title">{{ profile_user.favorite_song.title }}</h1>
+                    <p class="artist-name mt-1">{{ profile_user.favorite_song.artist }}</p>
+                    <p class="album-name">{{ profile_user.favorite_song.album.title }}</p>
+                    <p class="fan-info">
+                        {% with fan_count=profile_user.favorite_song.fans.count %}
+                            {% if fan_count > 1 %}
+                                {{ fan_count }} people love this song.
+                            {% endif %}
+                        {% endwith %}
+                        {% if profile_user.favorite_song_since %}
+                            Loved since {{ profile_user.favorite_song_since|date:"d. F Y" }}.
+                        {% endif %}
+                    </p>
+                {% else %}
+                    <p class="user-label">{{ profile_user.get_display_name }}</p>
+                    <p class="artist-name">hasn't set a favorite song yet.</p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<div class="container py-4">
+    <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">← Back to Home</a>
+</div>
+{% endblock %}
