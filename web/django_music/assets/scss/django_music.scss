@@ -1,6 +1,401 @@
 @import "bootstrap/scss/functions";
-
 @import "variables";
 @import "maps";
-
 @import "bootstrap/scss/bootstrap";
+
+// ── Global ───────────────────────────────────────────────────────────────────
+body {
+  background-color: #0a0a0f;
+  color: #f0eff5;
+}
+
+// ── Navbar ───────────────────────────────────────────────────────────────────
+.navbar {
+  background: rgba(10, 10, 15, 0.95) !important;
+  border-bottom: 1px solid #2a2a3a;
+  backdrop-filter: blur(12px);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.navbar-brand {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #f5c842 !important;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+// ── Hero ─────────────────────────────────────────────────────────────────────
+.home-hero {
+  background: #0a0a0f;
+  padding: 5rem 0 3rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    right: -120px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(245, 200, 66, 0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+.hero-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #f5c842;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: #f0eff5;
+  margin-bottom: 1rem;
+
+  span {
+    color: #f5c842;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: #888899;
+  max-width: 420px;
+  line-height: 1.6;
+}
+
+// ── Login card ───────────────────────────────────────────────────────────────
+.login-card {
+  background: #1a1a24;
+  border: 1px solid #2a2a3a;
+  border-radius: 12px;
+  padding: 2rem;
+
+  .login-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888899;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-control {
+    background: #22222f;
+    border-color: #2a2a3a;
+    color: #f0eff5;
+    border-radius: 6px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+
+    &:focus {
+      background: #22222f;
+      border-color: #f5c842;
+      box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.12);
+      color: #f0eff5;
+    }
+
+    &::placeholder {
+      color: #555566;
+    }
+  }
+
+  .form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888899;
+    margin-bottom: 0.4rem;
+  }
+
+  .btn-signin {
+    background: #f5c842;
+    border: none;
+    color: #0a0a0f;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.7rem;
+    border-radius: 6px;
+    width: 100%;
+    transition: background 0.2s, transform 0.1s;
+
+    &:hover {
+      background: #c9a030;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+// ── Section label ─────────────────────────────────────────────────────────────
+.section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #f5c842;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  &::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #2a2a3a;
+  }
+}
+
+// ── Song chart ───────────────────────────────────────────────────────────────
+.song-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.song-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: #1a1a24;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  transition: border-color 0.2s, background 0.2s;
+
+  &:hover {
+    border-color: rgba(245, 200, 66, 0.3);
+    background: #1e1e2c;
+  }
+
+  .song-rank {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #555566;
+    width: 1.5rem;
+    text-align: center;
+    flex-shrink: 0;
+
+    &.top-three {
+      color: #f5c842;
+    }
+  }
+
+  .song-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 4px;
+    background: #22222f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .song-info {
+    flex: 1;
+    min-width: 0;
+
+    .song-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f0eff5;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .song-meta {
+      font-size: 0.775rem;
+      color: #666677;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .song-fans {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #555566;
+    background: #22222f;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+}
+
+// ── Search ───────────────────────────────────────────────────────────────────
+.search-box {
+  position: relative;
+
+  .search-input {
+    background: #1a1a24;
+    border: 1px solid #2a2a3a;
+    border-radius: 8px;
+    color: #f0eff5;
+    padding: 0.7rem 1rem 0.7rem 2.75rem;
+    font-size: 0.9rem;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #f5c842;
+      box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.12);
+      background: #1a1a24;
+      color: #f0eff5;
+    }
+
+    &::placeholder { color: #555566; }
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555566;
+    font-size: 0.9rem;
+    pointer-events: none;
+  }
+
+  .search-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #f5c842;
+    border: none;
+    color: #0a0a0f;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover { background: #c9a030; }
+  }
+}
+
+.search-result-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.875rem 1rem;
+  background: #1a1a24;
+  border: 1px solid #2a2a3a;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  transition: border-color 0.2s;
+
+  &:hover { border-color: rgba(245, 200, 66, 0.3); }
+
+  .result-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #f0eff5;
+  }
+
+  .result-song {
+    font-size: 0.775rem;
+    color: #666677;
+  }
+
+  .result-link {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #f5c842;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+
+    &:hover { color: #c9a030; }
+  }
+}
+
+// ── Profile page ─────────────────────────────────────────────────────────────
+.profile-card {
+  background: #1a1a24;
+  border: 1px solid #2a2a3a;
+  border-radius: 12px;
+  padding: 2rem;
+
+  .form-control,
+  .form-select {
+    background: #22222f;
+    border-color: #2a2a3a;
+    color: #f0eff5;
+
+    &:focus {
+      background: #22222f;
+      border-color: #f5c842;
+      box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.12);
+      color: #f0eff5;
+    }
+  }
+
+  .form-select option {
+    background: #22222f;
+    color: #f0eff5;
+  }
+
+  .form-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #888899;
+  }
+
+  .form-text {
+    color: #555566;
+    font-size: 0.775rem;
+  }
+}
+
+// ── Alerts ───────────────────────────────────────────────────────────────────
+.alert-success {
+  background: rgba(245, 200, 66, 0.1);
+  border-color: rgba(245, 200, 66, 0.3);
+  color: #f5c842;
+}
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+.site-footer {
+  border-top: 1px solid #2a2a3a;
+  padding: 1.5rem 0;
+  font-size: 0.8rem;
+  color: #444455;
+  text-align: center;
+}

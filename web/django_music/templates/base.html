@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -12,24 +11,29 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{% url 'home' %}">🎵 Django Music</a>
-        <div class="collapse navbar-collapse">
+        <a class="navbar-brand" href="{% url 'home' %}">🎵 Django Music</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav" aria-controls="navbarNav"
+                aria-expanded="false" aria-label="Navigation umschalten">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'public_profile' user.slug %}">My Profile</a>
+                        <a class="nav-link" href="{% url 'public_profile' user.slug %}">Mein Profil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'profile' %}">Settings</a>
+                        <a class="nav-link" href="{% url 'profile' %}">Einstellungen</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        <a class="nav-link" href="{% url 'logout' %}">Abmelden</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">Login</a>
+                        <a class="nav-link" href="{% url 'home' %}">Anmelden</a>
                     </li>
                 {% endif %}
             </ul>
@@ -43,7 +47,7 @@
             {% for message in messages %}
                 <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                     {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Schließen"></button>
                 </div>
             {% endfor %}
         </div>
@@ -51,6 +55,10 @@
 
     {% block content %}{% endblock %}
 </main>
+
+<footer class="site-footer">
+    <div class="container">🎵 Django Music</div>
+</footer>
 
 <script type="text/javascript" src="{% static 'dist/entry.js' %}"></script>
 {% block extra_js %}{% endblock %}

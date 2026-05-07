@@ -1,4 +1,36 @@
-$font-family-sans-serif: "Noto Sans", sans-serif;
-$font-size-base: 1rem;
+// ── Colour palette ──────────────────────────────────────────────────────────
+$black:          #0a0a0f;
+$surface:        #111118;
+$surface-2:      #1a1a24;
+$surface-3:      #22222f;
+$border-col:     #2a2a3a;
+$gold:           #f5c842;
+$gold-dim:       #c9a030;
+$text-primary:   #f0eff5;
+$text-secondary: #888899;
+
+// ── Bootstrap overrides ──────────────────────────────────────────────────────
+$body-bg:                   $black;
+$body-color:                $text-primary;
+$font-family-sans-serif:    "Noto Sans", sans-serif;
+$font-size-base:            1rem;
+$primary:                   $gold;
+$secondary:                 $surface-3;
+$border-radius:             6px;
+$border-radius-lg:          10px;
+$card-bg:                   $surface-2;
+$card-border-color:         $border-col;
+$input-bg:                  $surface-3;
+$input-border-color:        $border-col;
+$input-color:               $text-primary;
+$input-placeholder-color:   $text-secondary;
+$input-focus-bg:            $surface-3;
+$input-focus-border-color:  $gold;
+$input-focus-color:         $text-primary;
+$navbar-dark-brand-color:   $gold;
+$navbar-dark-color:         rgba($text-primary, 0.75);
+$navbar-dark-hover-color:   $gold;
+$link-color:                $gold;
+$link-hover-color:          $gold-dim;
 
 @import "bootstrap/scss/variables";

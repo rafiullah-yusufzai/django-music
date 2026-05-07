@@ -110,23 +110,23 @@
 
             <div class="col">
                 {% if profile_user.favorite_song %}
-                    <p class="user-label">{{ profile_user.get_display_name }}'s favorite song</p>
+                    <p class="user-label">{{ profile_user.get_display_name }}s Lieblingssong</p>
                     <h1 class="song-title">{{ profile_user.favorite_song.title }}</h1>
                     <p class="artist-name mt-1">{{ profile_user.favorite_song.artist }}</p>
                     <p class="album-name">{{ profile_user.favorite_song.album.title }}</p>
                     <p class="fan-info">
                         {% with fan_count=profile_user.favorite_song.fans.count %}
                             {% if fan_count > 1 %}
-                                {{ fan_count }} people love this song.
+                                {{ fan_count }} Personen lieben diesen Song.
                             {% endif %}
                         {% endwith %}
                         {% if profile_user.favorite_song_since %}
-                            Loved since {{ profile_user.favorite_song_since|date:"d. F Y" }}.
+                            Geliebt seit {{ profile_user.favorite_song_since|date:"d. F Y" }}.
                         {% endif %}
                     </p>
                 {% else %}
                     <p class="user-label">{{ profile_user.get_display_name }}</p>
-                    <p class="artist-name">hasn't set a favorite song yet.</p>
+                    <p class="artist-name">hat noch keinen Lieblingssong festgelegt.</p>
                 {% endif %}
             </div>
 
@@ -135,6 +135,9 @@
 </section>
 
 <div class="container py-4">
-    <a href="{% url 'home' %}" class="btn btn-outline-secondary btn-sm">← Back to Home</a>
+    <a href="{% url 'home' %}"
+       style="color:#f5c842; font-size:0.875rem; font-weight:600; text-decoration:none;">
+        ← Zurück zur Startseite
+    </a>
 </div>
 {% endblock %}

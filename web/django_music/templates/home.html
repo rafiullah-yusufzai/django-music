@@ -1,15 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}Django Music – Home{% endblock %}
+{% block title %}Django Music – Startseite{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-    <div class="row justify-content-center g-5">
 
-        <div class="col-12 col-md-5">
-            <div class="card shadow-sm">
-                <div class="card-body p-4">
-                    <h2 class="card-title mb-4">Login</h2>
+{# ── Hero ── #}
+<section class="home-hero">
+    <div class="container">
+        <div class="row align-items-center g-5">
+
+            {# Links: Überschrift + Login #}
+            <div class="col-12 col-lg-5">
+                <p class="hero-eyebrow">Deine Musik. Deine Identität.</p>
+                <h1 class="hero-title">Teile deinen<br><span>Lieblingssong</span><br>mit der Welt.</h1>
+                <p class="hero-subtitle mb-4">Melde dich an, um deinen aktuellen Lieblingssong festzulegen und ihn auf deinem öffentlichen Profil zu zeigen.</p>
+
+                <div class="login-card">
+                    <p class="login-card-title">Bei deinem Konto anmelden</p>
                     <form method="post" novalidate>
                         {% csrf_token %}
                         {% for field in form %}
@@ -24,75 +31,78 @@
                             </div>
                         {% endfor %}
                         {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
+                            <div class="alert alert-danger py-2 px-3 mb-3" style="font-size:0.85rem;">
                                 {% for error in form.non_field_errors %}{{ error }}{% endfor %}
                             </div>
                         {% endif %}
-                        <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                        <button type="submit" class="btn-signin">Anmelden →</button>
                     </form>
                 </div>
             </div>
-        </div>
 
-        <div class="col-12 col-md-7">
-            <h2 class="mb-4">🔍 Search Users</h2>
-            <form method="get" class="mb-4">
-                <div class="input-group">
+            {# Rechts: Suche + Song-Chart #}
+            <div class="col-12 col-lg-7">
+
+                {# Suche #}
+                <p class="section-label">Profil suchen</p>
+                <form method="get" class="search-box mb-4">
+                    <span class="search-icon">🔍</span>
                     <input type="text"
-                        name="q"
-                        value="{{ query }}"
-                        class="form-control"
-                        placeholder="Search by name...">
-                    <button type="submit" class="btn btn-primary">Search</button>
-                </div>
-            </form>
+                           name="q"
+                           value="{{ query }}"
+                           class="search-input"
+                           placeholder="Nutzer nach Name suchen…"
+                           autocomplete="off">
+                    <button type="submit" class="search-btn">Suchen</button>
+                </form>
 
-            {% if query %}
-                {% if search_results %}
-                    <ul class="list-group mb-5">
-                        {% for u in search_results %}
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <div>
-                                    <div class="fw-bold">{{ u.get_display_name }}</div>
-                                    {% if u.favorite_song %}
-                                        <small class="text-muted">
-                                            ♫ {{ u.favorite_song.title }} — {{ u.favorite_song.artist }}
-                                        </small>
-                                    {% else %}
-                                        <small class="text-muted">No favorite song yet</small>
-                                    {% endif %}
+                {% if query %}
+                    {% if search_results %}
+                        <div class="mb-4">
+                            {% for u in search_results %}
+                                <div class="search-result-row">
+                                    <div>
+                                        <div class="result-name">{{ u.get_display_name }}</div>
+                                        {% if u.favorite_song %}
+                                            <div class="result-song">♫ {{ u.favorite_song.title }} — {{ u.favorite_song.artist }}</div>
+                                        {% else %}
+                                            <div class="result-song">Noch kein Lieblingssong</div>
+                                        {% endif %}
+                                    </div>
+                                    <a href="{% url 'public_profile' u.slug %}" class="result-link">Profil →</a>
                                 </div>
-                                <a href="{% url 'public_profile' u.slug %}" class="btn btn-outline-secondary btn-sm">
-                                    View profile
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p class="text-muted mb-5">No users found for "{{ query }}".</p>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p style="color:#666677; font-size:0.875rem;" class="mb-4">Keine Nutzer gefunden für "{{ query }}".</p>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
 
-            <h2 class="mb-4">🔥 Most Popular Songs</h2>
-            {% if top_songs %}
-                <ol class="list-group list-group-numbered">
-                    {% for song in top_songs %}
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <div class="ms-2 me-auto">
-                                <div class="fw-bold">{{ song.title }}</div>
-                                <small class="text-muted">{{ song.artist }} — {{ song.album.title }}</small>
+                {# Top Songs #}
+                <p class="section-label">Beliebteste Songs</p>
+                {% if top_songs %}
+                    <div class="song-chart">
+                        {% for song in top_songs %}
+                            <div class="song-row">
+                                <span class="song-rank {% if forloop.counter <= 3 %}top-three{% endif %}">
+                                    {{ forloop.counter }}
+                                </span>
+                                <div class="song-icon">🎵</div>
+                                <div class="song-info">
+                                    <div class="song-title">{{ song.title }}</div>
+                                    <div class="song-meta">{{ song.artist }} · {{ song.album.title }}</div>
+                                </div>
+                                <span class="song-fans">{{ song.fan_count }} Fan{{ song.fan_count|pluralize:"s" }}</span>
                             </div>
-                            <span class="badge bg-primary rounded-pill">
-                                {{ song.fan_count }} fan{{ song.fan_count|pluralize }}
-                            </span>
-                        </li>
-                    {% endfor %}
-                </ol>
-            {% else %}
-                <p class="text-muted">No songs yet.</p>
-            {% endif %}
-        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p style="color:#555566; font-size:0.875rem;">Noch keine Songs. Füge welche über das Admin-Panel hinzu.</p>
+                {% endif %}
 
+            </div>
+        </div>
     </div>
-</div>
+</section>
+
 {% endblock %}
