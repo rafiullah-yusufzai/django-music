@@ -7,7 +7,7 @@ from django.utils import timezone
 from django.views.generic import FormView, TemplateView, UpdateView
 from django.urls import reverse_lazy
 
-from django_music.forms import LoginForm, ProfileForm
+from django_music.forms import LoginForm, ProfileForm, RegistrationForm
 from django_music.models import Song, User
 
 class HomeView(FormView):
@@ -85,6 +85,23 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         user.save()
         messages.success(self.request, "Your profile has been updated.")
         return redirect("profile")
+    
+
+class RegistrationView(FormView):
+    template_name = "registration.html"
+    form_class = RegistrationForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("profile")
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        messages.success(self.request, "Willkommen bei Django Music! Dein Konto wurde erfolgreich erstellt.")
+        return redirect("profile")
+    
     
 
 def logout_view(request):
