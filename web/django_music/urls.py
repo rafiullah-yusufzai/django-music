@@ -6,12 +6,25 @@ from django_music.views import HomeView, PublicProfileView, ProfileView, logout_
 from django_music.api_views import ArtistListView
 
 urlpatterns = [
+    # Startseite — Anmeldeformular und Top-Songs
     path("", HomeView.as_view(), name="home"),
+
+    # Öffentliche Profilseite — erreichbar über den Slug des Nutzers
     path("u/<slug:slug>/", PublicProfileView.as_view(), name="public_profile"),
+
+    # Eingeloggter Bereich — Profil bearbeiten (Login erforderlich)
     path("profile/", ProfileView.as_view(), name="profile"),
+
+    # Registrierung — neues Konto erstellen
     path("register/", RegistrationView.as_view(), name="register"),
+
+    # Abmelden — Session beenden und zur Startseite weiterleiten
     path("logout/", logout_view, name="logout"),
+
+    # Django Admin-Bereich
     path("admin/", admin.site.urls),
+
+    # REST API — Künstlerliste (nur für angemeldete Nutzer)
     path("api/artists/", ArtistListView.as_view(), name="api_artists"),
 ]
 
